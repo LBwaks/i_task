@@ -10,8 +10,10 @@ from django.utils.translation import gettext_lazy as _
 class Sector(models.Model):
     sector_name = models.CharField(max_length=60, unique=True)
     slug = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User,related_name='user_sector', on_delete=models.CASCADE)
     description = models.TextField(max_length=255)
+    is_featured = models.BooleanField(default=True)
+    is_published = models.BooleanField(default=True)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
@@ -114,7 +116,8 @@ class Priority(models.Model):
 
 
 class Task(models.Model):
-    sector = models.ForeignKey(Sector, verbose_name=_('Sector'), on_delete= models.CASCADE)
+    sector = models.ForeignKey(Sector, related_name='task_sector', verbose_name=_('Sector'), on_delete= models.CASCADE)
+    user  = models.ForeignKey(User, on_delete=models.CASCADE)
     slug = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     source = models.ForeignKey(Source, verbose_name=_('Lead'),  on_delete=models.CASCADE)
     issue_type = models.ForeignKey(Issue, verbose_name=_("Issue"), on_delete=models.CASCADE)
@@ -126,7 +129,7 @@ class Task(models.Model):
     priority = models.ForeignKey(Priority, verbose_name=_('Priority'), on_delete=models.CASCADE)
     start_date = models.DateTimeField(_("Start Time"))
     end_date = models.DateTimeField(_("End Time"))
-    assigned_to = models.ForeignKey(User, verbose_name=_('Assigned To'), on_delete=models.CASCADE)
+    assigned_to = models.ForeignKey(User,related_name='task_assignee', verbose_name=_('Assigned To'), on_delete=models.CASCADE)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
