@@ -1,6 +1,6 @@
 from rest_framework.routers import DefaultRouter
-from .views import TaskViewset
+from Task.views import TaskList
 
 router = DefaultRouter()
-router.register(r'^tasks',TaskViewset)
+router.register(r'tasks', TaskList, basename='task')
 urlpatterns = router.urls
