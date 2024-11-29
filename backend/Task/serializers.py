@@ -7,8 +7,10 @@ from Accounts.serializers import UserSerializer
 class SectorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 
-        Model = Sector
-        fields = ['users', 'sector_name', 'description']
+        model = Sector
+        fields = ['sector_name', 'description']
+
+
 class SourceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 

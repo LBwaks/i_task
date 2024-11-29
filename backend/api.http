@@ -1,0 +1,38 @@
+
+### get token
+POST http://127.0.0.1:8000/api/token/ HTTP/1.1
+Content-Type: application/json
+
+{
+    "username":"admin",
+    "password":"admin"
+}
+
+### tasks list
+GET http://127.0.0.1:8000/api/v1/tasks/ HTTP/1.1
+
+### task details 
+GET http://127.0.0.1:8000/api/v1/tasks/2/ HTTP/1.1
+
+### cREATE TASK
+POST http://127.0.0.1:8000/api/v1/tasks/ HTTP/1.1
+Content-Type: application/json
+
+{
+  "url": "http://127.0.0.1:8000/api/v1/tasks/3/",
+  "sector": "http://127.0.0.1:8000/api/v1/sector/2/",
+  "source": "http://127.0.0.1:8000/api/v1/source/2/",
+  "issue_type": "http://127.0.0.1:8000/api/v1/issue/1/",
+  "customer_id": "qwer4",
+  "title": "qwe",
+  "description": "qwer",
+  "support_type": "http://127.0.0.1:8000/api/v1/support/1/",
+  "status": "http://127.0.0.1:8000/api/v1/status/1/",
+  "priority": "http://127.0.0.1:8000/api/v1/priority/1/",
+  "start_date": "2024-11-22T03:10:47Z",
+  "end_date": "2024-11-04T03:10:55Z",
+  "create_date": "2024-11-22T03:11:31.104595Z",
+  "update_date": "2024-11-22T03:11:31.104595Z"
+}
+
+# http://127.0.0.1:8000/api/v1/sector/2/

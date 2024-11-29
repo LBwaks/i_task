@@ -1,9 +1,10 @@
 from django.shortcuts import render
 from rest_framework import generics,viewsets
-from .serializers import TaskSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer
+from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer
 from .models import Task, Sector,Source,Issue,Support,Status,Priority
-from rest_framework.permissions import IsAdminUser,IsAuthenticated
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
+# from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
+from .permissions import IsOwnerOrReadOnly
 
 # Create your views here.
 
@@ -12,12 +13,16 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+        return super().perform_create(serializer)
 
 
 class SectorViewSet(viewsets.ModelViewSet):
 
-    serializer_class = TaskSerializer
+    serializer_class = SectorSerializer
     queryset = Sector.objects.all()    
 
 
