@@ -80,3 +80,24 @@ class PriorityFactory(factory.django.DjangoModelFactory):
     create_date = factory.LazyFunction(datetime.datetime.now)
     update_date = factory.LazyFunction(datetime.datetime.now)
 
+
+class TaskFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = Task
+
+    sector = factory.SubFactory(SectorFactory)
+    user  = factory.SubFactory(UserFactory)
+    slug = factory.LazyFunction(uuid.uuid4)
+    source =factory.LazyFunction(lambda: Source.objects.first() or SourceFactory())
+    issue_type = factory.SubFactory(IssueFactory)
+    customer_id = factory.Faker("word")
+    title = factory.Faker("sentence")
+    description = factory.Faker("paragraph")
+    support_type = factory.LazyFunction(lambda: Support.objects.first() or SupportFactory())
+    status = factory.LazyFunction(lambda: Status.objects.first() or StatusFactory())
+    priority = factory.SubFactory(PriorityFactory)
+    start_date = factory.LazyFunction(datetime.datetime.now)
+    end_date = factory.LazyFunction(datetime.datetime.now)
+    assigned_to = factory.LazyFunction(lambda: User.objects.first() or UserFactory())
+    create_date = factory.LazyFunction(datetime.datetime.now)
+    update_date = factory.LazyFunction(datetime.datetime.now)

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Task, Sector, Source, Issue, Support,Status,Priority
+from .models import Task, Sector, Source, Issue, Support,Status,Priority,TaskFiles
 from django.contrib.auth.models import User
 from Accounts.serializers import UserSerializer
 
@@ -36,12 +36,20 @@ class PrioritySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 
         Model = Priority
-        fields = ['users', 'priority_type', 'description']              
+        fields = ['users', 'priority_type', 'description']      
+
+class TaskFileSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta :
+        model =TaskFiles
+        fields =['task','file']        
+
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     #url = serializers.HyperlinkedIdentityField(view_name='task-detail',lookup_field='slug')
     # user=  UserSerializer()
     # assigned_to= UserSerializer()
+    file = TaskFileSerializer(many=True,required=False)
+    image_files =serializers.ListField(child=serializers.ImageField(),write_only=True,required=False)
     class Meta:
         model = Task
         fields = ['url', #'user',
@@ -51,6 +59,8 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
                 'title','description',
                 'support_type','status','priority',
                 'start_date','end_date',
+                'file',
+                'image_files',
               #  'assigned_to',
                 'create_date', 
                 'update_date']
@@ -60,3 +70,5 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
 
 
 # def validate
+
+
