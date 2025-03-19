@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from rest_framework import generics,viewsets,status
-from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer
+from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer,AssigneesSerializer
 from .models import Task, Sector,Source,Issue,Support,Status,Priority
+from Accounts.models import Assignees
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 # from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from .permissions import IsOwnerOrReadOnly
@@ -75,6 +76,10 @@ class PriorityViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     queryset = Priority.objects.all()    
+
+class AssigneeViewSet(viewsets.ModelViewSet):
+    serializer_class=AssigneesSerializer
+    queryset=Assignees.objects.all()
 
 
 

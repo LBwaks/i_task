@@ -2,6 +2,7 @@ from rest_framework import serializers
 from .models import Task, Sector, Source, Issue, Support,Status,Priority,TaskFiles
 from django.contrib.auth.models import User
 from Accounts.serializers import UserSerializer
+from Accounts.models import Assignees
 
 user=UserSerializer()
 
@@ -45,17 +46,22 @@ class TaskFileSerializer(serializers.HyperlinkedModelSerializer):
         model =TaskFiles
         fields =['task','file']        
 
+class AssigneesSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model= Assignees
+        fields = ['created_by','assignee','update_date']
+
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='task-detail',lookup_field='slug')
-    #user = serializers.HyperlinkedIdentityField(view_name='user-detail',lookup_field='username',read_only=True)
-    #user=  UserSerializer()
+    #created_by = serializers.HyperlinkedIdentityField(view_name='user-detail',lookup_field='username',read_only=True)
+    created_by=  UserSerializer()
     # assigned_to= UserSerializer()
     file = TaskFileSerializer(many=True,required=False)
     image_files =serializers.ListField(child=serializers.ImageField(),write_only=True,required=False)
     class Meta:
         model = Task
-        fields = ['url', #'user',
+        fields = ['url', 'created_by',
                   'sector',
                  'source','issue_type',
                   'customer_id',

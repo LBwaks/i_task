@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 import uuid
 from django.utils.translation import gettext_lazy as _
 from django.urls import reverse
+from Accounts.models import Assignees
 # Create your models here.
 
 # sector
@@ -113,13 +114,15 @@ class Priority(models.Model):
     def __str__(self):
         return self.priority_type
 
+#
+
     
 # task
 
 
 class Task(models.Model):
     sector = models.ForeignKey(Sector, related_name='task_sector', verbose_name=_('Sector'), on_delete= models.CASCADE)
-    user  = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_by  = models.ForeignKey(User, on_delete=models.CASCADE,default=1,verbose_name='Created BY')
     slug = models.UUIDField(unique=True, default=uuid.uuid4, editable=False)
     source = models.ForeignKey(Source, verbose_name=_('Lead'),  on_delete=models.CASCADE)
     issue_type = models.ForeignKey(Issue, verbose_name=_("Issue"), on_delete=models.CASCADE)
@@ -131,7 +134,7 @@ class Task(models.Model):
     priority = models.ForeignKey(Priority, verbose_name=_('Priority'), on_delete=models.CASCADE)
     start_date = models.DateTimeField(_("Start Time"))
     end_date = models.DateTimeField(_("End Time"))
-    assigned_to = models.ForeignKey(User,related_name='task_assignee', verbose_name=_('Assigned To'), on_delete=models.CASCADE)
+    assigned_to = models.ForeignKey(Assignees,related_name='task_assignee', verbose_name=_('Assigned To'), on_delete=models.CASCADE,default=1)
     create_date = models.DateTimeField(auto_now_add=True)
     update_date = models.DateTimeField(auto_now=True)
 
@@ -185,9 +188,16 @@ class TaskHistory(models.Model):
 # task comments
 #assigee
 
-class Assignee(models.Model):
-    task=models.ForeignKey(Task,verbose_name='Assigned_task',on_delete=models.CASCADE)
-    assigned_by =models.ForeignKey(User,on_delete=models.CASCADE)
-    comments=models.TextField(max_length=300)
-    assigned_date=models.DateTimeField(auto_now_add=True)
-    update_date = models.DateTimeField(auto_now=True)
+# class Assignee(models.Model):
+#     task=models.ForeignKey(Task,verbose_name='Assigned_task',on_delete=models.CASCADE)
+#     assigned_by = models.ForeignKey(User,verbose_name='Assigned_by',related_name='assigned_by',on_delete=models.CASCADE)
+#     assigned_to = models.ForeignKey(User,verbose_name='Assigned_to',related_name='assigned_tasks',on_delete=models.CASCADE)
+#     comments=models.TextField(max_length=300)
+#     assigned_date=models.DateTimeField(auto_now_add=True)
+#     update_date = models.DateTimeField(auto_now=True)
+
+#     class Meta:
+#         verbose_name=' Assignee'
+    
+#     def __str__(self):
+#         return f"{self.task.title} →"
