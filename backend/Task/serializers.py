@@ -3,6 +3,7 @@ from .models import Task, Sector, Source, Issue, Support,Status,Priority,TaskFil
 from django.contrib.auth.models import User
 from Accounts.serializers import UserSerializer
 
+user=UserSerializer()
 
 class SectorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -15,28 +16,29 @@ class SourceSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 
         Model = Source
-        fields = ['users', 'source_name', 'description']
+        fields = ['user', 'source_name', 'description']
 class IssueSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 
         Model = Issue
-        fields = ['users', 'issue_type', 'description']
+        fields = ['user', 'issue_type', 'description']
 class SupportSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 
         Model = Support
-        fields = ['users', 'support_name', 'description']
+        fields = ['user', 'support_name', 'description']
+
 class StatusSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-
-        Model = Status
-        fields = ['users', 'status_name', 'description']   
+        model = Status
+        fields = [#'users', 
+                  'status_name', 'description']   
 
 class PrioritySerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
 
         Model = Priority
-        fields = ['users', 'priority_type', 'description']      
+        fields = ['user', 'priority_type', 'description']      
 
 class TaskFileSerializer(serializers.HyperlinkedModelSerializer):
     class Meta :
@@ -45,8 +47,9 @@ class TaskFileSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
-    #url = serializers.HyperlinkedIdentityField(view_name='task-detail',lookup_field='slug')
-    # user=  UserSerializer()
+    url = serializers.HyperlinkedIdentityField(view_name='task-detail',lookup_field='slug')
+    #user = serializers.HyperlinkedIdentityField(view_name='user-detail',lookup_field='username',read_only=True)
+    #user=  UserSerializer()
     # assigned_to= UserSerializer()
     file = TaskFileSerializer(many=True,required=False)
     image_files =serializers.ListField(child=serializers.ImageField(),write_only=True,required=False)
@@ -61,7 +64,7 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
                 'start_date','end_date',
                 'file',
                 'image_files',
-              #  'assigned_to',
+               'assigned_to',
                 'create_date', 
                 'update_date']
         

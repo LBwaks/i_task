@@ -1,6 +1,7 @@
 from rest_framework.routers import SimpleRouter
 from Task.views import TaskViewSet, SectorViewSet, SourceViewSet, IssueViewSet, StatusViewSet, PriorityViewSet,SupportViewSet
 from django.urls import path, include
+
 router = SimpleRouter()
 router.register(r'tasks', TaskViewSet, basename='task')
 router.register(r'sector', SectorViewSet, basename='sector')

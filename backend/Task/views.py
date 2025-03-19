@@ -16,6 +16,7 @@ class TaskViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
     permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    lookup_field='slug'
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
@@ -26,7 +27,7 @@ class TaskViewSet(viewsets.ModelViewSet):
         task = self.get_object()
         serializer = A;
 
-    @action(detail=True, methods=['put'],name='change_status')
+    @action(detail=True, methods=['patch'],name='change_status')
     def change_status(self,request,pk=None):
         status_obj=self.get_object()
         serializer=TaskSerializer(status_obj,data=request.data,partial=True,context={"request":request})
@@ -66,7 +67,7 @@ class SupportViewSet(viewsets.ModelViewSet):
 
 class StatusViewSet(viewsets.ModelViewSet):
 
-    serializer_class = TaskSerializer
+    serializer_class = StatusSerializer
     queryset = Status.objects.all()    
 
 

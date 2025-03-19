@@ -112,6 +112,7 @@ class Priority(models.Model):
 
     def __str__(self):
         return self.priority_type
+
     
 # task
 
@@ -182,3 +183,11 @@ class TaskHistory(models.Model):
     def __str__(self):
         return f"{self.task.title}-{self.id}"
 # task comments
+#assigee
+
+class Assignee(models.Model):
+    task=models.ForeignKey(Task,verbose_name='Assigned_task',on_delete=models.CASCADE)
+    assigned_by =models.ForeignKey(User,on_delete=models.CASCADE)
+    comments=models.TextField(max_length=300)
+    assigned_date=models.DateTimeField(auto_now_add=True)
+    update_date = models.DateTimeField(auto_now=True)
