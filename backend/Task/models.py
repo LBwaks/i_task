@@ -188,7 +188,7 @@ class TaskHistory(models.Model):
 # task comments
 #assigee
 
-# class Assignee(models.Model):
+# class AssigneeHist(models.Model):
 #     task=models.ForeignKey(Task,verbose_name='Assigned_task',on_delete=models.CASCADE)
 #     assigned_by = models.ForeignKey(User,verbose_name='Assigned_by',related_name='assigned_by',on_delete=models.CASCADE)
 #     assigned_to = models.ForeignKey(User,verbose_name='Assigned_to',related_name='assigned_tasks',on_delete=models.CASCADE)

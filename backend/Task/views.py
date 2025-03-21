@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from rest_framework import generics,viewsets,status
-from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer,AssigneesSerializer
+from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer
 from .models import Task, Sector,Source,Issue,Support,Status,Priority
 from Accounts.models import Assignees
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
@@ -16,20 +16,26 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
-    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    #permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     lookup_field='slug'
 
     def perform_create(self, serializer):
         serializer.save(user=self.request.user)
         return super().perform_create(serializer)
     
-    @action(detail=True,methods=['put'],name='change_assignee')
-    def change_asignee(self,request,pk=None):
-        task = self.get_object()
-        serializer = A;
+    @action(detail=True,methods=['patch'],name='change_assignee')
+    def change_asignee(self,request,slug=None):
+        ass_obj = self.get_object()
+        serializer = TaskSerializer(ass_obj,data=request.data,partial=True,context={"request":request})
+
+        if serializer.is_valid():
+            ass_obj.save()
+            return Response({"status":"Asignee Change"})
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['patch'],name='change_status')
-    def change_status(self,request,pk=None):
+    def change_status(self,request,slug=None):
         status_obj=self.get_object()
         serializer=TaskSerializer(status_obj,data=request.data,partial=True,context={"request":request})
         
@@ -77,9 +83,7 @@ class PriorityViewSet(viewsets.ModelViewSet):
     serializer_class = TaskSerializer
     queryset = Priority.objects.all()    
 
-class AssigneeViewSet(viewsets.ModelViewSet):
-    serializer_class=AssigneesSerializer
-    queryset=Assignees.objects.all()
+
 
 
 
