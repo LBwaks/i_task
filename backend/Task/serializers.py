@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Task, Sector, Source, Issue, Support,Status,Priority,TaskFiles
+from .models import Task, Sector, Source, Issue, Support,Status,Priority,TaskFiles,TaskComment
 from django.contrib.auth.models import User
 from Accounts.serializers import UserSerializer
 from Accounts.models import Assignees
@@ -76,5 +76,15 @@ class TaskSerializer(serializers.HyperlinkedModelSerializer):
 
 
 # def validate
+
+# TaskComment
+class TaskCommentSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name='taskcomment-detail')
+    task = serializers.HyperlinkedRelatedField(view_name='task-detail',lookup_field='slug',queryset=Task.objects.all())
+    user = serializers.HyperlinkedRelatedField(view_name='user-detail',lookup_field='username',queryset=User.objects.all())
+
+    class Meta:
+        model =TaskComment
+        fields = ['url','task','user','comment','create_date','update_date']
 
 

@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import generics,viewsets,status
-from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer
-from .models import Task, Sector,Source,Issue,Support,Status,Priority
+from .serializers import TaskSerializer,SectorSerializer,SourceSerializer,IssueSerializer,SupportSerializer,IssueSerializer,SupportSerializer,StatusSerializer,PrioritySerializer,TaskCommentSerializer
+from .models import Task, Sector,Source,Issue,Support,Status,Priority,TaskComment
 from Accounts.models import Assignees
 from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 # from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
@@ -45,7 +45,36 @@ class TaskViewSet(viewsets.ModelViewSet):
             return Response({'status':'Status Updated'})
         else:
             return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
+    @action(detail=True,methods=['POST','GET','DELETE'],name='task_comments')
+    def task_comment(self,request,slug=None):
+        task_obj =self.get_object()
 
+        #get
+        if request.method =='GET':
+             comments =task_obj.comments.all()        
+             serializer =TaskCommentSerializer(comments,many=True,context={"request":request})
+             return Response(serializer.data)
+        
+        #post
+        elif request.method=='POST':
+            serializer=TaskCommentSerializer(data=request.data,context={"request":request})
+            if serializer.is_valid():
+                TaskComment.objects.create(task=task_obj,user=self.request.user,comment=serializer.validate_data['comment'])
+                return Response(serializer.data,status=status.HTTP_201_CREATED)
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+        
+        #delete
+        elif request.method=="DELETE":
+            comment_id =request.data.get("id")
+            if not comment_id:
+                return Response({"error":"comment_id is required"},status=status.HTTP_400_BAD_REQUEST)
+            try:
+                comment= TaskComment.objects.get(id=comment_id,task=task_obj,user=self.request.user)
+                comment.delete()
+                return Response({"message":"Comment delete"},status=status.HTTP_204_NO_CONTENT)
+            except TaskComment.DoesNotExist:
+                return Response({"message":"Comment Does not exist"},status=status.HTTP_404_NOT_FOUND)
 
 
 
@@ -82,6 +111,10 @@ class PriorityViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     queryset = Priority.objects.all()    
+
+class TaskCommentsViewset(viewsets.ModelViewSet):
+    serializer_class=TaskCommentSerializer
+    queryset=TaskComment.objects.all()
 
 
 

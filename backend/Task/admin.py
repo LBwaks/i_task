@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Sector, Source, Support, Status, Issue, Priority, Task, TaskHistory, TaskFiles#,Assignee
+from .models import Sector, Source, Support, Status, Issue, Priority, Task, TaskHistory, TaskFiles,TaskComment#,Assignee
 # Register your models here.
 
 
@@ -121,3 +121,14 @@ class TaskHistoryAdmin(admin.ModelAdmin):
 # @admin.register(Assignee)
 # class AssigneeAdmin(admin.ModelAdmin):
 #     list_display=['task','assigned_date']
+
+@admin.register(TaskComment)
+class TaskComments(admin.ModelAdmin):
+    list_display=('task','user','comment','create_date')
+    readonly_fields =('user',)
+
+    def save_model(self, request, obj, form, change):
+        if not obj.user_id:
+            obj.user=request.user
+            obj.save()
+        return super().save_model(request, obj, form, change)

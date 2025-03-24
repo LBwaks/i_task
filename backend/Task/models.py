@@ -201,3 +201,19 @@ class TaskHistory(models.Model):
     
 #     def __str__(self):
 #         return f"{self.task.title} →"
+
+
+# Task Comments
+
+class  TaskComment(models.Model):
+    task = models.ForeignKey(Task, verbose_name=_("Task"),related_name='comments', on_delete=models.CASCADE)
+    user = models.ForeignKey(User, verbose_name=_("User"), on_delete=models.CASCADE)
+    comment = models.TextField(max_length=1000)
+    create_date = models.DateTimeField(auto_now_add=True)
+    update_date = models.DateField(auto_now=True)
+
+    class Meta:
+        verbose_name ='Task Comment'
+
+        def __str__(self):
+            return f"{self.task.title}"

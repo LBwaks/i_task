@@ -1,5 +1,5 @@
 from rest_framework.routers import SimpleRouter
-from Task.views import TaskViewSet, SectorViewSet, SourceViewSet, IssueViewSet, StatusViewSet, PriorityViewSet,SupportViewSet
+from Task.views import TaskViewSet, SectorViewSet, SourceViewSet, IssueViewSet, StatusViewSet, PriorityViewSet,SupportViewSet,TaskCommentsViewset
 from django.urls import path, include
 
 router = SimpleRouter()
@@ -10,6 +10,7 @@ router.register(r'issue', IssueViewSet, basename='issue')
 router.register(r'status', StatusViewSet, basename='status')
 router.register(r'priority', PriorityViewSet, basename='priority')
 router.register(r'support', SupportViewSet, basename='support')
+router.register('comments',TaskCommentsViewset,basename='taskcomment')
 
 
 urlpatterns = [
