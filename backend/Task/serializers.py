@@ -51,28 +51,35 @@ class TaskFileSerializer(serializers.HyperlinkedModelSerializer):
 
 class TaskSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name='task-detail',lookup_field='slug')
-    #created_by = serializers.HyperlinkedIdentityField(view_name='user-detail',lookup_field='username',read_only=True)
+    created_by = serializers.HyperlinkedRelatedField(view_name='user-detail',lookup_field='username',queryset=User.objects.all() )
     #created_by=  UserSerializer()
     # assigned_to= UserSerializer()
     file = TaskFileSerializer(many=True,required=False)
-    image_files =serializers.ListField(child=serializers.ImageField(),write_only=True,required=False)
+    task_files =serializers.ListField(child=serializers.FileField(allow_empty_file = True,use_url=False),write_only=True,required=False)
     class Meta:
         model = Task
-        fields = ['url', #'created_by',
+        fields = ['url', 'created_by',
                   'sector',
                  'source','issue_type',
                   'customer_id',
                 'title','description',
                 'support_type','status','priority',
                 'start_date','end_date',
-                'file',
-                'image_files',
-               'assigned_to',
+                'file',                
+               'assigned_to','task_files',
                 'create_date', 
                 'update_date']
         
         def validate():
             pass
+
+        def create(self ,validated_data):
+            task_files =validated_data.pop("task_files",[])
+            task = Task.object.create(**validated_data)
+            for file in task_files:
+                TaskFiles.objects.create(task=task,file=file)
+            return task
+
 
 
 # def validate

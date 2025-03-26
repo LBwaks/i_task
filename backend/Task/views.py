@@ -7,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnl
 # from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
 from .permissions import IsOwnerOrReadOnly
 from rest_framework.decorators import action
+from rest_framework.parsers import MultiPartParser,FormParser
 from rest_framework.response import Response
 
 # Create your views here.
@@ -16,11 +17,12 @@ class TaskViewSet(viewsets.ModelViewSet):
 
     serializer_class = TaskSerializer
     queryset = Task.objects.all()
-    #permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
+    permission_classes = [IsAuthenticatedOrReadOnly, IsOwnerOrReadOnly]
     lookup_field='slug'
+    parser_classes =[MultiPartParser,FormParser]
 
     def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+        serializer.save(created_by=self.request.user)
         return super().perform_create(serializer)
     
     @action(detail=True,methods=['patch'],name='change_assignee')

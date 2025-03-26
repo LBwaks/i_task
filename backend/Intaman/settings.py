@@ -175,6 +175,7 @@ REST_FRAMEWORK = {
         "rest_framework.authentication.BasicAuthentication"
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+    'UPLOADED_FILES_USE_URL': False,
 }
 
 # silk 
