@@ -77,6 +77,11 @@ class TaskViewSet(viewsets.ModelViewSet):
                 return Response({"message":"Comment delete"},status=status.HTTP_204_NO_CONTENT)
             except TaskComment.DoesNotExist:
                 return Response({"message":"Comment Does not exist"},status=status.HTTP_404_NOT_FOUND)
+            
+
+    # add file
+    # def add_file(self,request,slug=None):
+    #     pass
 
 
 
