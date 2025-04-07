@@ -13,6 +13,12 @@ const menuData: Menu[]=[
         newTab: false,
         path: "/#features",
       },
+    {
+        id:3,
+        title:"Create Task",
+        newTab:false,
+        path:"/task/post-task"
+    },
       {
         id: 2.1,
         title: "Blog",
