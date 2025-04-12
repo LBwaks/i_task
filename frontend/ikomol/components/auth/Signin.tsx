@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { motion } from "motion/react";
+import {signIn} from "@/auth"
 
 const Signin =() => {
     const[data,setData]=useState({
@@ -94,6 +95,14 @@ const Signin =() => {
                   </span>
                   Signup with Google
                 </button>
+                <form
+                  action={async () => {
+                    "use server"
+                    await signIn("google")
+                  }}
+                >
+                  <button type="submit">Signin with Google</button>
+                </form>
 
                 <button
                   aria-label="signup with github"

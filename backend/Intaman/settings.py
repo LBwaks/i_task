@@ -48,10 +48,16 @@ INSTALLED_APPS = [
     'rest_framework',
     "corsheaders",
     'silk',
+    'rest_framework.authtoken',
     'rest_framework_simplejwt',
     'drf_spectacular',
     'drf_spectacular_sidecar',
-     "corsheaders",
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',
+    "dj_rest_auth",
+    'dj_rest_auth.registration',
     # installed app
 
     'Task',
@@ -69,6 +75,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",
     
 ]
 
@@ -116,18 +123,18 @@ DATABASES = {
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    # },
+    # {
+    #     'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    # },
 ]
 
 
@@ -150,9 +157,10 @@ STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
 STATIC_FILES_DIRS = [os.path.join(BASE_DIR, "static")]
 
-#media
-MEDIA_ROOT=os.path.join(BASE_DIR/"media")
-MEDIA_URL ="/media/"
+# media
+
+MEDIA_ROOT = os.path.join(BASE_DIR/"media")
+MEDIA_URL = "/media/"
 
 
 # Default primary key field type
@@ -161,12 +169,22 @@ MEDIA_URL ="/media/"
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS Setting.
-CORS_ALLOWED_ORIGINS = [
-    "https://example.com",
-    "https://sub.example.com",
-    "http://localhost:8080",
-    "http://127.0.0.1:9000",
-]
+if DEBUG:
+    CORS_ALLOWED_ORIGINS = [
+        "https://example.com",
+        "https://sub.example.com",
+        "http://localhost:8080",
+        "http://127.0.0.1:9000",
+    ]
+else:
+    CORS_ALLOWED_ORIGINS = [
+        "https://example.com",
+        "https://sub.example.com",
+        "http://localhost:8080",
+        "http://127.0.0.1:9000",
+    ]
+
+
 
 # Rest Framework Setting
 REST_FRAMEWORK = {
@@ -175,8 +193,8 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework_simplejwt.authentication.JWTAuthentication",
-        "rest_framework.authentication.SessionAuthentication",
-        "rest_framework.authentication.BasicAuthentication"
+        # "rest_framework.authentication.SessionAuthentication",
+        # "rest_framework.authentication.BasicAuthentication"
     ],
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'UPLOADED_FILES_USE_URL': False,
@@ -184,22 +202,25 @@ REST_FRAMEWORK = {
 
 # silk 
 SILKY_PYTHON_PROFILER = True
-SILKY_PYTHON_PROFILER_BINARY = True
+SILKY_PYTHON_PROFILER_BINARY = False
 SILKY_AUTHENTICATION = True  # User must login
 SILKY_AUTHORISATION = True  # User must have permissions
+SILKY_META = True
 
 
 
-### jwt settings
+# jwt settings
+
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=1),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     "ROTATE_REFRESH_TOKENS": False,
     "BLACKLIST_AFTER_ROTATION": False,
-    "UPDATE_LAST_LOGIN": False,
+    "UPDATE_LAST_LOGIN": True,
 
     "ALGORITHM": "HS256",
-    "SIGNING_KEY": settings.SECRET_KEY,
+    # "SIGNING_KEY": settings.SECRET_KEY,
+    "SIGNING_KEY": "complexsigningkey",
     "VERIFYING_KEY": "",
     "AUDIENCE": None,
     "ISSUER": None,
@@ -220,8 +241,8 @@ SIMPLE_JWT = {
     "JTI_CLAIM": "jti",
 
     "SLIDING_TOKEN_REFRESH_EXP_CLAIM": "refresh_exp",
-    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=5),
-    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=1),
+    "SLIDING_TOKEN_LIFETIME": timedelta(minutes=60),
+    "SLIDING_TOKEN_REFRESH_LIFETIME": timedelta(days=7),
 
     "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
     "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
@@ -242,3 +263,43 @@ SPECTACULAR_SETTINGS = {
     'REDOC_DIST': 'SIDECAR',
     # OTHER SETTINGS
 }
+# AUTHENTICATION_BACKEND = [
+#     # to login by username to django admin
+#     "django.contrib.auth.backends.ModelBackend",
+#     # allauth speicfied auth login by email
+#     "allauth.accounts.auth_backends.AuthenticationBackend"
+
+# ]
+
+# dj_rrst
+REST_AUTH = {
+    'USE_JWT': True,
+    "JWT_AUTH:HTTPONLY": False
+}
+# Allauth
+SITE_ID = 1
+
+#ACCOUNT_SIGNUP_FILEDS = ['username*', 'email', 'password1*', 'password2*']
+ACCOUNT_EMAIL_VERIFICATION = "none"
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google': {
+        # For each OAuth based provider, either add a ``SocialApp``
+        # (``socialaccount`` app) containing the required client
+        # credentials, or list them here:
+        'APP': {
+            'client_id':os.getenv("client_id"),
+            'secret': os.getenv("secret"),
+            'key': ''
+        }
+    }
+}
+# setting email backend
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST =os.getenv("EMAIL_HOST")
+EMAIL_PORT = os.getenv("EMAIL_PORT")
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD =os.getenv("EMAIL_HOST_PASSWORD")
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

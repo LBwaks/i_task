@@ -2,7 +2,21 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import React from "react";
+import { PhotoIcon,UserCircleIcon } from "@heroicons/react/24/solid";
 
+
+// src/app/dashboard/page.tsx
+// import { auth } from "@/auth"
+
+// export default async function Dashboard() {
+//   const session = await auth()
+
+//   return (
+//     <div>
+//       <h1>Welcome, {session?.user?.email}</h1>
+//     </div>
+//   )
+// }
 const PostTask = () =>{
     /**
    * Source: https://www.joshwcomeau.com/react/the-perils-of-rehydration/
@@ -19,8 +33,8 @@ const PostTask = () =>{
     return (
         <>
         {/* <!-- ===== Contact Start ===== --> */}
-        <section id="support" className="px-4 md:px-8 2xl:px-0">
-          <div className="relative mx-auto max-w-c-1390 px-7.5 pt-10 lg:px-15 lg:pt-15 xl:px-20 xl:pt-20">
+        <section id="support" className="px-4 md:px-6 2xl:px-0">
+          <div className="relative mx-auto max-w-c-1390 px-7.5 pt-10 lg:px-15 lg:pt-10 xl:px-10 xl:pt-10">
             <div className="absolute left-0 top-0 -z-1 h-2/3 w-full rounded-lg bg-gradient-to-t from-transparent to-[#dee7ff47] dark:bg-gradient-to-t dark:to-[#252A42]"></div>
             <div className="absolute bottom-[-255px] left-0 -z-1 h-full w-full">
               <Image
@@ -54,162 +68,124 @@ const PostTask = () =>{
                 whileInView="visible"
                 transition={{ duration: 1, delay: 0.1 }}
                 viewport={{ once: true }}
-                className="animate_top w-full rounded-lg bg-white p-7.5 shadow-solid-8 dark:border dark:border-strokedark dark:bg-black md:w-3/5 lg:w-3/4 xl:p-15"
+                className="animate_top w-full rounded-lg bg-white p-7.5 shadow-solid-8 dark:border dark:border-strokedark dark:bg-black md:w-5/5 lg:w-4/4 xl:p-15"
               >
-                <h2 className="mb-15 text-3xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
-                  Send a message
+                <h2 className="mb-15 text-center text-3xl font-semibold text-black dark:text-white xl:text-sectiontitle2">
+                  Create Task
                 </h2>
-                <form
-                action="https://formbold.com/s/unique_form_id"
-                method="POST"
-              >
-                <div className="mb-7.5 flex flex-col gap-7.5 lg:flex-row lg:justify-between lg:gap-14">
-                  <input
-                    type="text"
-                    placeholder="Full name"
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
-                  />
+               
 
-                  <input
-                    type="email"
-                    placeholder="Email address"
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
-                  />
+                <form className="-1/2 sm:w-auto md:w-full lg:w-32 xl:w-3/4 pb-3 px-2 mx-auto">
+                <div className="mb-5">
+                <label htmlFor="sector" className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Sector </label>
+                <select id="sector" className="bg-gray-50 h-14 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                    <option>Gachie</option>
+                    <option>Adungosi</option>
+                    <option>Town</option>
+                    <option>Ruaka</option>
+                </select>
                 </div>
 
-                <div className="mb-12.5 flex flex-col gap-7.5 lg:flex-row lg:justify-between lg:gap-14">
-                  <input
-                    type="text"
-                    placeholder="Subject"
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
-                  />
+                <div className="mb-5">
+                <label htmlFor="issue" className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Issue Type </label>
+                <select id="issue" className="bg-gray-50 h-14 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                  <input
-                    type="text"
-                    placeholder="Phone number"
-                    className="w-full border-b border-stroke bg-transparent pb-3.5 focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white lg:w-1/2"
-                  />
+                    <option>New Install</option>
+                    <option>Support</option>
+                    <option>Rellocation</option>
+                    
+                </select>
                 </div>
+                <div className="mb-5">
+                <label htmlFor="prioity" className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Priority</label>
+                <select id="priority" className="bg-gray-50 h-14 border border-gray-300 text-gray-900 text-base rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
 
-                <div className="mb-11.5 flex">
-                  <textarea
-                    placeholder="Message"
-                    rows={4}
-                    className="w-full border-b border-stroke bg-transparent focus:border-waterloo focus:placeholder:text-black focus-visible:outline-none dark:border-strokedark dark:focus:border-manatee dark:focus:placeholder:text-white"
-                  ></textarea>
+                    <option>HIgh</option>
+                    <option>LOw</option>
+                    <option>Rellocation</option>
+                    
+                </select>
                 </div>
+                <div className="mb-7.5">
+                    <label htmlFor="summary" className="block mb-5 text-lg font-medium text-gray-900 dark:text-white">Summary</label>
+                    <input type="text" id="text" className="h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="New install mugacha" required />
+                </div>
+                
+                <div className="mb-7.5">
+                <label htmlFor="message" className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Description</label>
+                <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
 
-                <div className="flex flex-wrap gap-4 xl:justify-between ">
-                  <div className="mb-4 flex md:mb-0">
-                    <input
-                      id="default-checkbox"
-                      type="checkbox"
-                      className="peer sr-only"
+                </div>
+                <div className="mb-5">
+                <label htmlFor="countries" className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Support Type</label>
+                <select id="countries" className="bg-gray-50 h-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                    <option>Slow Speed</option>
+                    <option>RElocation</option>
+                    <option>Payments</option>                    
+                </select>
+                </div>
+                <div className="mb-5">
+                <label htmlFor="countries" className="block mb-2 text-lg font-medium text-gray-900 dark:text-white">Source Of Task </label>
+                <select id="countries" className="bg-gray-50 h-14 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+
+                    <option>Customer</option>
+                    <option>Technician</option>
+                    <option>Payments</option>                    
+                </select>
+                </div>
+                <div className="mb-7.5">
+                    <label htmlFor="summary" className="block mb-5 text-lg font-medium text-gray-900 dark:text-white">Customer Account Number</label>
+                    <input type="text" id="text" className="h-14 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="New install mugacha" required />
+                </div>
+                <div className="mb-5">
+                    <div className="col-span-full">
+                            <label htmlFor="cover-photo" className="block text-lg font-medium text-gray-900">
+                                Attachments
+                            </label>
+                            <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                                <div className="text-center">
+                                <PhotoIcon aria-hidden="true" className="mx-auto size-12 text-gray-300" />
+                                <div className="mt-4 flex text-sm/6 text-gray-600">
+                                    <label
+                                    htmlFor="file-upload"
+                                    className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"
+                                    >
+                                    <span>Upload a file</span>
+                                    <input id="file-upload" name="file-upload" type="file" className="sr-only" />
+                                    </label>
+                                    <p className="pl-1">or drag and drop</p>
+                                </div>
+                                <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+                                </div>
+                            </div>
+                            </div>
+                </div>
+                <div className="flex flex-wrap gap-4 xl:justify-center ">                 
+
+                <button
+                aria-label="Create"
+                className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark"
+                >
+                Create
+                <svg
+                    className="fill-white"
+                    width="14"
+                    height="14"
+                    viewBox="0 0 14 14"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                >
+                    <path
+                    d="M10.4767 6.16664L6.00668 1.69664L7.18501 0.518311L13.6667 6.99998L7.18501 13.4816L6.00668 12.3033L10.4767 7.83331H0.333344V6.16664H10.4767Z"
+                    fill=""
                     />
-                    <span className="border-gray-300 bg-gray-100 text-blue-600 dark:border-gray-600 dark:bg-gray-700 group mt-2 flex h-5 min-w-[20px] items-center justify-center rounded peer-checked:bg-primary">
-                      <svg
-                        className="opacity-0 peer-checked:group-[]:opacity-100"
-                        width="10"
-                        height="8"
-                        viewBox="0 0 10 8"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          clipRule="evenodd"
-                          d="M9.70704 0.792787C9.89451 0.980314 9.99983 1.23462 9.99983 1.49979C9.99983 1.76495 9.89451 2.01926 9.70704 2.20679L4.70704 7.20679C4.51951 7.39426 4.26521 7.49957 4.00004 7.49957C3.73488 7.49957 3.48057 7.39426 3.29304 7.20679L0.293041 4.20679C0.110883 4.01818 0.0100885 3.76558 0.0123669 3.50339C0.0146453 3.24119 0.119814 2.99038 0.305222 2.80497C0.490631 2.61956 0.741443 2.51439 1.00364 2.51211C1.26584 2.50983 1.51844 2.61063 1.70704 2.79279L4.00004 5.08579L8.29304 0.792787C8.48057 0.605316 8.73488 0.5 9.00004 0.5C9.26521 0.5 9.51951 0.605316 9.70704 0.792787Z"
-                          fill="white"
-                        />
-                      </svg>
-                    </span>
-                    <label
-                      htmlFor="default-checkbox"
-                      className="flex max-w-[425px] cursor-pointer select-none pl-5"
-                    >
-                      By clicking Checkbox, you agree to use our “Form” terms
-                      And consent cookie usage in browser.
-                    </label>
-                  </div>
-
-                  <button
-                    aria-label="send message"
-                    className="inline-flex items-center gap-2.5 rounded-full bg-black px-6 py-3 font-medium text-white duration-300 ease-in-out hover:bg-blackho dark:bg-btndark"
-                  >
-                    Send Message
-                    <svg
-                      className="fill-white"
-                      width="14"
-                      height="14"
-                      viewBox="0 0 14 14"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M10.4767 6.16664L6.00668 1.69664L7.18501 0.518311L13.6667 6.99998L7.18501 13.4816L6.00668 12.3033L10.4767 7.83331H0.333344V6.16664H10.4767Z"
-                        fill=""
-                      />
-                    </svg>
-                  </button>
+                </svg>
+                </button>
                 </div>
-              </form>
-{/* form 1 */}
 
-<form className="max-w-sm mx-auto">
-  <div className="mb-5">
-    <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-    <input type="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@flowbite.com" required />
-  </div>
-  <div className="mb-5">
-    <label for="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your password</label>
-    <input type="password" id="password" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
-  </div>
-  <div className="mb-5">
-  <label for="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your message</label>
-  <textarea id="message" rows="4" className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Leave a comment..."></textarea>
-
-  </div>
-  <div className="mb-5">
-  <label for="countries" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select your country</label>
-  <select id="countries" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-
-    <option>United States</option>
-    <option>Canada</option>
-    <option>France</option>
-    <option>Germany</option>
-  </select>
-  </div>
-  <div className="mb-5">
-    {/* <div className="col-span-full">
-              <label htmlFor="cover-photo" className="block text-sm/6 font-medium text-gray-900">
-                Cover photo
-              </label>
-              <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
-                <div className="text-center">
-                  <PhotoIcon aria-hidden="true" className="mx-auto size-12 text-gray-300" />
-                  <div className="mt-4 flex text-sm/6 text-gray-600">
-                    <label
-                      htmlFor="file-upload"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500"
-                    >
-                      <span>Upload a file</span>
-                      <input id="file-upload" name="file-upload" type="file" className="sr-only" />
-                    </label>
-                    <p className="pl-1">or drag and drop</p>
-                  </div>
-                  <p className="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
-                </div>
-              </div>
-            </div> */}
-  </div>
-  <div className="flex items-start mb-5">
-    <div className="flex items-center h-5">
-      <input id="remember" type="checkbox" value="" className="w-4 h-4 border border-gray-300 rounded-sm bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800" required />
-    </div>
-    <label for="remember" className="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
-  </div>
-  <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-</form>
+                </form>
 
 
 
